@@ -175,8 +175,8 @@ class OrderBurger {
      */
     _fetchToppings() {
         this.toppings = [
-            {'id': 0, 'title': 'spice', 'energy': 0, 'price': 15},
-            {'id': 1, 'title': 'mayo', 'energy': 5, 'price': 20},
+            {'id': 1, 'title': 'spice', 'energy': 0, 'price': 15},
+            {'id': 2, 'title': 'mayo', 'energy': 5, 'price': 20},
         ]
 
     }
@@ -230,8 +230,8 @@ class OrderBurger {
             this.burger = new bigBurger(filling)
         }
 
-        for (let toppingItem of this.toppings) {
-            let toppingObj = this.toppings.find(topping => topping.id === toppingItem.id);
+        for (let toppingItem of this.toppingIdsList) {
+            let toppingObj = this.toppings.find(topping => topping.id === toppingItem);
             let topping = new Topping(toppingObj['title'], toppingObj['energy'], toppingObj['price']);
             if (this.burger) {
                 this.burger.addTopping(topping);
