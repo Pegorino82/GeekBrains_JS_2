@@ -22,6 +22,24 @@ header {
     height: 100%;
 }
 
+.widget-cart {
+    display: none;
+    float: left;
+    margin-right: 20px;
+
+    position: absolute;
+    top: 126px;
+    right: 127px;
+    background: antiquewhite;
+    padding: 10px;
+}
+
+#close-cart-btn {
+    right: 2px;
+    top: 2px;
+    position: absolute;
+}
+
 .btn-cart {
     height: inherit;
     padding: 30px;
@@ -42,12 +60,12 @@ header {
 
     display: grid;
     grid-gap: 15px;
-    grid-template-columns: 4fr 2fr;
+    grid-template-columns: 4fr 1fr 1fr;
     grid-template-rows: 1fr 4fr 1fr;
     grid-template-areas:
-        "header header"
-        "center center"
-        "price button";
+        "header header header"
+        "center center center"
+        "price dec-btn add-btn";
 }
 
 .product-item h3 {
@@ -63,6 +81,9 @@ header {
 .product-item p {
     grid-area: price;
 }
-.product-item button {
-    grid-area: button;
+.product-item .buy-btn {
+    grid-area: add-btn;
+}
+.product-item .dec-btn {
+    grid-area: dec-btn;
 }

@@ -7,17 +7,53 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <div class="cart">
-            <button class="btn-cart" type="button">Корзина</button>
-        </div>
-    </header>
-    <main>
-        <div class="products"></div>
-    </main>
-    <footer>
+<header>
+    <div class="cart">
+        <div class="widget-cart">
+            <button id="close-cart-btn">X</button>
+            <table>
+                <thead>
+                <tr>
+                    <td>Наименование</td>
+                    <td>Цена</td>
+                    <td>Кол.</td>
+                    <td>Общая цена</td>
+                    <td>Добавить</td>
+                    <td>Удалить</td>
+                </tr>
+                </thead>
+                <tbody>
 
-    </footer>
-    <script src="js/main.js"></script>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td>товаров в корзине:</td>
+                    <td></td>
+                    <td></td>
+                    <td id="total-goods"></td>
+                </tr>
+                <tr>
+                    <td>обшая стоимость:</td>
+                    <td></td>
+                    <td></td>
+                    <td id="total-price"></td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+        <button class="btn-cart" type="button">
+            <p>Корзина</p>
+            <p>товаров: <span id="btn-cart-total-goods"></span></p>
+            <p>цена: <span id="btn-cart-total-price"></span></p>
+        </button>
+    </div>
+</header>
+<main>
+    <div class="products"></div>
+</main>
+<footer>
+
+</footer>
+<script src="js/main.js"></script>
 </body>
 </html>
