@@ -18,3 +18,7 @@
 .alert {
     border: red 1px solid;
 }
+
+.field-is-valid {
+    display: none;
+}

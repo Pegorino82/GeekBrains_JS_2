@@ -10,12 +10,16 @@
     <form class="form">
         <input type="text" class="form-field" id="name" name="name" placeholder="Имя(только буквы)">
         <label for="name">Имя</label>
+        <div name="name" class="field-is-valid">Имя должно содержать только буквы</div>
         <input type="text" class="form-field" id="phone" name="phone" placeholder="+7(000)000-0000">
         <label for="phone">Телефон</label>
+        <div name="phone" class="field-is-valid">Телефон в формате +7(000)000-0000</div>
         <input type="text" class="form-field" id="email" name="email" placeholder="mymail@mail.ru/my.mail@mail.ru/ my-mail@mail.ru">
         <label for="email">E-mail</label>
+        <div name="email" class="field-is-valid">Адрес в формате mymail@mail.ru/my.mail@mail.ru/ my-mail@mail.ru или mymail@mail.com/my.mail@mail.com/ my-mail@mail.com</div>
         <input type="text" class="form-field" id="text" name="text" placeholder="Произвольный текст">
         <label for="text">Текст</label>
+        <div name="text" class="field-is-valid">Поле не должно быть пустым</div>
         <button class="form-field" type="submit">Отправить</button>
     </form>
 </div>
