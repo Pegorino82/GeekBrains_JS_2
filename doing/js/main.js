@@ -102,7 +102,8 @@ const app = new Vue({
                     filteredGoods.push(elem);
                 }
             }
-            console.log(filteredGoods);
+            this.$data.products = [...filteredGoods];
+            // console.log(filteredGoods);
         }
     },
     mounted() {
