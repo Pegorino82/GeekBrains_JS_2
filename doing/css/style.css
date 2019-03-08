@@ -1,4 +1,4 @@
-body {
+#app {
     background-color: burlywood;
     display: grid;
     grid-template-rows: 1fr 8fr 1fr;
@@ -23,7 +23,7 @@ header {
 }
 
 .widget-cart {
-    display: none;
+    /*display: none;*/
     float: left;
     margin-right: 20px;
 

@@ -7,53 +7,82 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<header>
-    <div class="cart">
-        <div class="widget-cart">
-            <button id="close-cart-btn">X</button>
-            <table>
-                <thead>
-                <tr>
-                    <td>Наименование</td>
-                    <td>Цена</td>
-                    <td>Кол.</td>
-                    <td>Общая цена</td>
-                    <td>Добавить</td>
-                    <td>Удалить</td>
-                </tr>
-                </thead>
-                <tbody>
+<div id="app">
+    <header>
+        <div class="search">
+            <input type="text" v-model="searchLine">
+            <button type="button" @click="filterGoods">Найти</button>
 
-                </tbody>
-                <tfoot>
-                <tr>
-                    <td>товаров в корзине:</td>
-                    <td></td>
-                    <td></td>
-                    <td id="total-goods"></td>
-                </tr>
-                <tr>
-                    <td>обшая стоимость:</td>
-                    <td></td>
-                    <td></td>
-                    <td id="total-price"></td>
-                </tr>
-                </tfoot>
-            </table>
         </div>
-        <button class="btn-cart" type="button">
-            <p>Корзина</p>
-            <p>товаров: <span id="btn-cart-total-goods"></span></p>
-            <p>цена: <span id="btn-cart-total-price"></span></p>
-        </button>
-    </div>
-</header>
-<main>
-    <div class="products"></div>
-</main>
+        <div class="cart">
+            <div class="widget-cart" v-if="showCartProperty">
+                <button id="close-cart-btn" @click="closeCart">X</button>
+                <table>
+                    <thead>
+                    <tr>
+                        <td>Наименование</td>
+                        <td>Цена</td>
+                        <td>Кол.</td>
+                        <td>Общая цена</td>
+                        <td>Добавить</td>
+                        <td>Удалить</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr v-for="cartItem of cart.contents">
+                        <td>{{ cartItem.product_name }}</td>
+                        <td>{{ cartItem.price }}</td>
+                        <td>{{ cartItem.quantity }}</td>
+                        <td>{{ cartItem.quantity * cartItem.price }}</td>
+                        <td>
+                            <button class="buy-btn" @click.stop="addProduct(cartItem, $event)">+</button>
+                        </td>
+                        <td>
+                            <button class="dec-btn" @click.stop="delProduct(cartItem, $event)">-</button>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td>товаров в корзине:</td>
+                        <td></td>
+                        <td></td>
+                        <td id="total-goods">{{ cart.countGoods }}</td>
+                    </tr>
+                    <tr>
+                        <td>обшая стоимость:</td>
+                        <td></td>
+                        <td></td>
+                        <td id="total-price">{{ cart.amount }}</td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <button class="btn-cart" type="button" @click="showCart($event)">
+                <p>Корзина</p>
+                <p>товаров: <span id="btn-cart-total-goods">{{ cart.countGoods }}</span></p>
+                <p>цена: <span id="btn-cart-total-price"></span>{{ cart.amount }}</p>
+            </button>
+        </div>
+    </header>
+    <main>
+        <div class="products">
+            <div :class='productItemClass' v-for="product of products" :key="product.id_product">
+                <h3>{{ product.product_name }}</h3>
+                <div :class='productImageClass'
+                     :style='prodImageStyle'></div>
+                <p>$ {{ product.price }}</p>
+                <button class="del-btn" @click.stop="delProduct(product, $event)">Убрать из корзины</button>
+                <button class="buy-btn" @click.stop="addProduct(product, $event)">Положить в корзину</button>
+            </div>
+        </div>
+    </main>
+</div>
 <footer>
 
 </footer>
+<script src="js/vue.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
