@@ -7,6 +7,16 @@
     font-family: 'impact', sans-serif;
 }
 
+.error-message {
+    width: 200px;
+    min-height: 100px;
+    position: absolute;
+    top: 75px;
+    left: 150px;
+    background-color: chartreuse;
+    text-align: center;
+}
+
 header,
 footer,
 main {
@@ -62,10 +72,7 @@ header {
     grid-gap: 15px;
     grid-template-columns: 4fr 1fr 1fr;
     grid-template-rows: 1fr 4fr 1fr;
-    grid-template-areas:
-        "header header header"
-        "center center center"
-        "price dec-btn add-btn";
+    grid-template-areas: "header header header" "center center center" "price dec-btn add-btn";
 }
 
 .product-item h3 {
@@ -81,9 +88,11 @@ header {
 .product-item p {
     grid-area: price;
 }
+
 .product-item .buy-btn {
     grid-area: add-btn;
 }
+
 .product-item .dec-btn {
     grid-area: dec-btn;
 }

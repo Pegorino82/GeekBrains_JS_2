@@ -8,6 +8,7 @@
 </head>
 <body>
 <div id="app">
+    <error-component ref="errorComponent"></error-component>
     <header>
         <search></search>
         <cart ref="cart"></cart>
@@ -19,12 +20,13 @@
 <footer>
 
 </footer>
-<script src="js/vue.js"></script>
-<script src="js/components/products-list-component.js"></script>
-<script src="js/components/product-component.js"></script>
-<script src="js/components/cart-component.js"></script>
-<script src="js/components/cart-item-component.js"></script>
-<script src="js/components/search-component.js"></script>
+<script src="js/packages/vue.js"></script>
+<script src="js/components/products/products-list-component.js"></script>
+<script src="js/components/products/product-component.js"></script>
+<script src="js/components/cart/cart-component.js"></script>
+<script src="js/components/cart/cart-item-component.js"></script>
+<script src="js/components/utils/search-component.js"></script>
+<script src="js/components/errors/error-component.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>

@@ -6,13 +6,17 @@ const settings = {
 
 const app = new Vue({
     el: settings.appSelector,
-    data: {},
+    data: {
+    },
 
     methods: {
         getJson(url) {
             return fetch(url)
                 .then(result => result.json())
-                .catch(error => console.log(error))
+                .catch(error => {
+                    // console.log(this);
+                    this.$refs.errorComponent.renderError(error, url);
+                })
         },
     },
 
