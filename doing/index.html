@@ -61,14 +61,17 @@
             </div>
             <button class="btn-cart" type="button" @click="showCart($event)">
                 <p>Корзина</p>
-                <p>товаров: <span id="btn-cart-total-goods">{{ cart.countGoods }}</span></p>
-                <p>цена: <span id="btn-cart-total-price"></span>{{ cart.amount }}</p>
+                <div v-if="!cart.amount">нет товаров</div>
+                <div v-else>
+                    <p>товаров: <span id="btn-cart-total-goods">{{ cart.countGoods }}</span></p>
+                    <p>цена: <span id="btn-cart-total-price"></span>{{ cart.amount }}</p>
+                </div>
             </button>
         </div>
     </header>
     <main>
         <div class="products">
-            <div :class='productItemClass' v-for="product of products" :key="product.id_product">
+            <div :class='productItemClass' v-for="product of filtered" :key="product.id_product">
                 <h3>{{ product.product_name }}</h3>
                 <div :class='productImageClass'
                      :style='prodImageStyle'></div>

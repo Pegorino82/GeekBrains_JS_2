@@ -14,6 +14,14 @@ const settings = {
     productImageClass: 'product-image',
 };
 
+// запросы для работы с сервером
+const apiRequests = {
+    catalogUrl: '/catalogData.json',
+    cartUrl: '/getBasket.json',
+    addToBasket: '/addToBasket.json',
+    deleteFromBasket: '/deleteFromBasket.json',
+};
+
 
 const app = new Vue({
     el: settings.appSelector,
@@ -21,10 +29,10 @@ const app = new Vue({
         productItemClass: 'product-item',
         productImageClass: 'product-image',
 
-        catalogUrl: '/catalogData.json',
-        cartUrl: '/getBasket.json',
+        api: apiRequests,
 
         products: [],
+        filtered:[],
         productImg: 'https://placehold.it/200x150',
 
         showCartProperty: false,
@@ -50,36 +58,46 @@ const app = new Vue({
         },
 
         addProduct(product, event) {
-            let item = this.$data.cart.contents.find(elem => {
-                return elem.id_product === product.id_product
-            });
-            if (item) {
-                item.quantity++;
-                this.$data.cart.countGoods++;
-                this.$data.cart.amount += item.price;
-            } else {
-                const cartItem = {...product};
-                cartItem['quantity'] = 1;
-                this.$data.cart.contents.push(cartItem);
-                this.$data.cart.countGoods++;
-                this.$data.cart.amount += product.price;
-            }
+            this.getJson(`${API}${this.api.addToBasket}`)
+                .then(data => {
+                    if (data.result === 1) {
+                        let item = this.cart.contents.find(elem => {
+                            return elem.id_product === product.id_product
+                        });
+                        if (item) {
+                            item.quantity++;
+                            this.cart.countGoods++;
+                            this.cart.amount += item.price;
+                        } else {
+                            const cartItem = {...product};
+                            cartItem['quantity'] = 1;
+                            this.cart.contents.push(cartItem);
+                            this.cart.countGoods++;
+                            this.cart.amount += product.price;
+                        }
+                    }
+                });
         },
 
         delProduct(product, event) {
-            let item = this.$data.cart.contents.find(elem => {
-                return elem.id_product === product.id_product
-            });
-            if (item && item.quantity > 1) {
-                item.quantity--;
-                this.$data.cart.countGoods--;
-                this.$data.cart.amount -= item.price;
-            } else if (item && item.quantity === 1) {
-                const idx = this.$data.cart.contents.indexOf(item);
-                this.$data.cart.contents.splice(idx, 1);
-                this.$data.cart.countGoods--;
-                this.$data.cart.amount -= item.price;
-            }
+            this.getJson(`${API}${this.api.deleteFromBasket}`)
+                .then(data => {
+                    if (data.result === 1) {
+                        let item = this.cart.contents.find(elem => {
+                            return elem.id_product === product.id_product
+                        });
+                        if (item && item.quantity > 1) {
+                            item.quantity--;
+                            this.cart.countGoods--;
+                            this.cart.amount -= item.price;
+                        } else if (item && item.quantity === 1) {
+                            const idx = this.$data.cart.contents.indexOf(item);
+                            this.cart.contents.splice(idx, 1);
+                            this.cart.countGoods--;
+                            this.cart.amount -= item.price;
+                        }
+                    }
+                })
         },
 
         cartUpdate(product, action) {
@@ -87,36 +105,36 @@ const app = new Vue({
         },
 
         showCart(event) {
-            this.$data.showCartProperty = true;
+            this.showCartProperty = true;
         },
 
         closeCart(event) {
-            this.$data.showCartProperty = false;
+            this.showCartProperty = false;
         },
 
         filterGoods() {
+            const field = new RegExp(this.searchLine, 'ig');
+            // this.filtered = this.products.find(elem => field.test(elem.product_name)); //TODO не работает
             let filteredGoods = [];
-            const field = new RegExp(this.$data.searchLine, 'ig');
-            for (let elem of this.$data.products) {
+            for (let elem of this.products) {
                 if (elem.product_name.match(field)) {
                     filteredGoods.push(elem);
                 }
             }
-            this.$data.products = [...filteredGoods];
-            // console.log(filteredGoods);
+            this.filtered = [...filteredGoods];
         }
     },
     mounted() {
-        this.getJson(`${API + this.catalogUrl}`)
+        this.getJson(`${API + this.api.catalogUrl}`)
             .then(data => {
                 for (let item of data) {
                     this.$data.products.push(item);
+                    this.$data.filtered.push(item);
                 }
             });
-        this.getJson(`${API + this.cartUrl}`)
+        this.getJson(`${API + this.api.cartUrl}`)
             .then(data => {
                 this.$data.cart = {...data};
-                console.log(this.$data.cart)
             })
     }
 });
