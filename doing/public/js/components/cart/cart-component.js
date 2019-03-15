@@ -6,7 +6,7 @@ const cartSettings = {
 
 // запросы для работы с сервером
 const cartApiRequests = {
-    cartUrl: '/getBasket.json',
+    cartUrl: '/api/cart',
     addToBasket: '/addToBasket.json',
     deleteFromBasket: '/deleteFromBasket.json',
 };
@@ -24,46 +24,56 @@ Vue.component('cart', {
 
     methods: {
         addProduct(product, event) {
-            this.$parent.getJson(`${API}${this.api.addToBasket}`)
-                .then(data => {
-                    if (data.result === 1) {
-                        let item = this.cart.contents.find(elem => {
-                            return elem.id_product === product.id_product
-                        });
-                        if (item) {
+            let item = this.cart.contents.find(elem => {
+                return elem.id_product === product.id_product
+            });
+            if (item) {
+                this.$parent.putJson(`${this.api.cartUrl}/${product.id_product}`, {quantity: 1})
+                    .then(data => {
+                        if (data.result === 1) {
                             item.quantity++;
                             this.cart.countGoods++;
                             this.cart.amount += item.price;
-                        } else {
-                            const cartItem = {...product};
-                            cartItem['quantity'] = 1;
+                        }
+                    })
+            } else {
+                const cartItem = {...product};
+                cartItem['quantity'] = 1;
+                this.$parent.postJson(`${this.api.cartUrl}`, cartItem)
+                    .then(data => {
+                        if (data.result === 1) {
                             this.cart.contents.push(cartItem);
                             this.cart.countGoods++;
-                            this.cart.amount += product.price;
+                            this.cart.amount += cartItem.price;
                         }
-                    }
-                });
+                    });
+            }
         },
 
         delProduct(product, event) {
-            this.$parent.getJson(`${API}${this.api.deleteFromBasket}`)
-                .then(data => {
-                    if (data.result === 1) {
-                        let item = this.cart.contents.find(elem => {
-                            return elem.id_product === product.id_product
-                        });
-                        if (item && item.quantity > 1) {
+            let item = this.cart.contents.find(elem => {
+                return elem.id_product === product.id_product
+            });
+            if (item && item.quantity > 1) {
+                this.$parent.putJson(`${this.api.cartUrl}/${product.id_product}`, {quantity: -1})
+                    .then(data => {
+                        if (data.result === 1) {
                             item.quantity--;
                             this.cart.countGoods--;
                             this.cart.amount -= item.price;
-                        } else if (item && item.quantity === 1) {
-                            const idx = this.$data.cart.contents.indexOf(item);
+                        }
+                    })
+            } else if (item && item.quantity === 1) {
+                this.$parent.delJson(`${this.api.cartUrl}/${product.id_product}`)
+                    .then(data => {
+                        if (data.result === 1) {
+                            const idx = this.cart.contents.indexOf(item);
                             this.cart.contents.splice(idx, 1);
                             this.cart.countGoods--;
                             this.cart.amount -= item.price;
                         }
-                    }
-                })
+                    })
+            }
         },
 
         cartUpdate(product, action) {
@@ -79,14 +89,14 @@ Vue.component('cart', {
         },
     },
 
-   mounted() {
-       this.$parent.getJson(`${API + this.api.cartUrl}`)
+    mounted() {
+        this.$parent.getJson(this.api.cartUrl)
             .then(data => {
                 this.$data.cart = {...data};
             })
-   },
+    },
 
-   template: `
+    template: `
         <div :class="this.settings.cartClass">
             <div :class="this.settings.cartWidgetClass" v-if="showCartProperty">
             <cart-item 

@@ -3,7 +3,7 @@ const productsListSettings = {
 };
 
 const apiProductsRequests = {
-    catalogUrl: '/catalogData.json',
+    catalogUrl: '/api/products',
 };
 
 Vue.component('products-list', {
@@ -22,7 +22,6 @@ Vue.component('products-list', {
     methods: {
         filterGoods(searchLine) {
             const field = new RegExp(searchLine, 'ig');
-            // this.filtered = this.products.find(elem => field.test(elem.product_name)); //TODO не работает
             let filteredGoods = [];
             for (let elem of this.products) {
                 if (elem.product_name.match(field)) {
@@ -34,7 +33,7 @@ Vue.component('products-list', {
     },
 
     mounted() {
-        this.$parent.getJson(`${API + this.api.catalogUrl}`)
+        this.$parent.getJson(this.api.catalogUrl)
             .then(data => {
                 for (let item of data) {
                     this.$data.products.push(item);
