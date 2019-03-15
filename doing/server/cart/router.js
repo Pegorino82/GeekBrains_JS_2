@@ -4,7 +4,7 @@ const router = express.Router();
 const handler = require('./handler');
 
 const CODING = 'utf-8';
-const ERROR404 = '404';
+const ERROR404 = 404;
 const CART = 'server/db/userCart.json';
 
 router.get('/', (req, res) => {

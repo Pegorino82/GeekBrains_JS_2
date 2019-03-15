@@ -3,7 +3,7 @@ const statJson = require('../stats');
 const fs = require('fs');
 
 const CODING = 'utf-8';
-const ERROR404 = '404';
+const ERROR404 = 404;
 
 const actions = {
     add: cart.add,
